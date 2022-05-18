@@ -2,8 +2,8 @@ import speech_recognition as sr
 from pydub import AudioSegment
 from os import path
 
-# file_name = r"tmp\20210227_135213_test.m4a"
-file_name = r"tmp\AUD-20220518-WA0000.m4a"
+file_name = r"tmp\20210227_135213.m4a"
+# file_name = r"tmp\AUD-20220518-WA0000.m4a"
 
 
 if not path.exists(file_name):
@@ -24,6 +24,7 @@ else:
     with sr.AudioFile(AUDIO_FILE) as source:
         audio = r.record(source)  # read the entire audio file
 
+    
     # recognize speech using Google Speech Recognition
     try:
         # for testing purposes, we're just using the default API key
