@@ -56,7 +56,12 @@ def Recognize(wav_filename):
 file_name = r"tmp\20210227_135213_test.m4a"
 # file_name = r"tmp\AUD-20220518-WA0000.m4a"
 
-
+# 11111111111111111
 # wf = convert_wav(file_name)
 # res = Recognize(wf)
 # print('(G):',res)
+
+# 22222222222222222222222
+
+
+
