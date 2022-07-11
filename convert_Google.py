@@ -8,7 +8,7 @@ from os import path
 def convert_wav(m_file_name: str):
 
     # находим расширение
-    m_ext = file_name[len(m_file_name)-3:]
+    m_ext = m_file_name[len(m_file_name)-3:]
     # создаем новое имя файла с нужным расширением
     wav_filename = m_file_name.replace(m_ext, 'wav')
 
@@ -53,15 +53,17 @@ def Recognize(wav_filename):
     
     return m_result
 
-file_name = r"tmp\20210227_135213_test.m4a"
-# file_name = r"tmp\AUD-20220518-WA0000.m4a"
 
-# 11111111111111111
-# wf = convert_wav(file_name)
-# res = Recognize(wf)
-# print('(G):',res)
+if __name__ == "__main__":
+    # file_name = r"tmp\20210227_135213_test.m4a"
+    file_name = r"tmp\AUD-20220518-WA0000.m4a"
 
-# 22222222222222222222222
+    # 11111111111111111
+    wf = convert_wav(file_name)
+    # res = Recognize(wf)
+    # print('(G):',res)
+
+    # 22222222222222222222222
 
 
 

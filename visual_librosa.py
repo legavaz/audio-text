@@ -22,5 +22,5 @@ audio,sfreq = lr.load(file_name)
 # ax.set(xlabel = 'time',ylabel='sound')
 # plt.show()
 
-lr.
+# lr.
 print(len(audio),audio)
