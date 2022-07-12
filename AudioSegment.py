@@ -14,7 +14,7 @@ import at_utility
 # Блок тестирования
 if __name__ == "__main__":
     # print("конвертация")
-    fn_1 = r"tmp\ОришакАнтон.m4a"
+    fn_1 = r"tmp\Богословская.m4a"
     # fn_1 = r"tmp\AUD-20220518-WA0000.wav"
     fn_1 = at_utility.Convert_wav(fn_1)
 
