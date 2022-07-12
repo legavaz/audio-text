@@ -69,7 +69,7 @@ def match_target_amplitude(sound, target_dBFS):
 
 
 def write_json(file_name: str, data):
-    with open(file_name, 'w') as wf:
+    with open(file_name, 'w+') as wf:
         json.dump(data, wf)
 
 
@@ -88,6 +88,15 @@ def file_name_short(fn: str):
         fn_short = path.splitext(path.basename(fn))[0]
     return fn_short
 
+
+def recognize_write(track):
+    res = Recognize(track['file'])
+    mText = '('+str(track['count'])+'):'+str(track['start'] /
+                                                   1000)+'-'+str(track['end']/1000)+' сек: '+res+'\n'
+    track['res'] = mText
+    # f = open(track['file']+'.txt','w') 
+    # f.write(mText)
+    # f.close()
 
 # Блок тестирования
 if __name__ == "__main__":

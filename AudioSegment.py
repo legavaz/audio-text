@@ -3,6 +3,9 @@ from itertools import count
 from tracemalloc import start
 from pydub import AudioSegment
 from pydub.silence import detect_nonsilent
+from threading import Thread, Timer
+import threading
+import time
 
 # кастомные
 import at_utility
@@ -11,9 +14,9 @@ import at_utility
 # Блок тестирования
 if __name__ == "__main__":
     # print("конвертация")
-    fn_1 = r"tmp\conversation_pause.wav"
-    fn_1 = r"tmp\AUD-20220518-WA0000.wav"
-    # fn_1 = at_utility.Convert_wav(fn_1)
+    fn_1 = r"tmp\ОришакАнтон.m4a"
+    # fn_1 = r"tmp\AUD-20220518-WA0000.wav"
+    fn_1 = at_utility.Convert_wav(fn_1)
 
     fn_short = at_utility.file_name_short(fn_1)
 
@@ -55,7 +58,7 @@ if __name__ == "__main__":
             at_utility.Cut_AS(audio_segment, start, end, fn_count)
 
             file_arr.append({'file': fn_count, 'start': start,
-                            'end': end, 'count': count})
+                            'end': end, 'count': count, 'res': ''})
             start = chunks[1]
 
     # сохраняем последний отрезок
@@ -65,13 +68,22 @@ if __name__ == "__main__":
         str(count+1)+'_'+str(len_sec)+'_sec.wav'
     at_utility.Cut_AS(audio_segment, start, end, fn_count)
     file_arr.append({'file': fn_count, 'start': start,
-                    'end': end, 'count': count+1})
+                     'end': end, 'count': count, 'res': ''})
 
     # распознование файла
     mText = ''
     for track in file_arr:
-        res = at_utility.Recognize(track['file'])
-        mText = mText+'('+str(track['count'])+'):'+str(track['start'] /
-                                                       1000)+'-'+str(track['end']/1000)+' сек: '+res+'\n'
+        th = Thread(target=at_utility.recognize_write, args=(track,))
+        th.start()
+        # at_utility.recognize_write(track)
+        # res = at_utility.Recognize(track['file'])
+        # mText = mText+'('+str(track['count'])+'):'+str(track['start'] /
+        #                                                1000)+'-'+str(track['end']/1000)+' сек: '+res+'\n'
 
-    print('(G):\n', mText)
+    while threading.active_count() > 1:
+        print('в работе: ', threading.active_count(),'потока(ов)')
+        time.sleep(3)
+
+    for track in file_arr:
+        print(track['res'])
+    
