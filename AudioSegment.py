@@ -77,6 +77,7 @@ def audio_to_text(file_name: str):
 
     # Удаляем файлы
     at_utility.delete_file(fn_1)
+    at_utility.delete_file(file_name)    
 
     return file_arr
 
