@@ -94,9 +94,6 @@ def recognize_write(track):
     mText = '('+str(track['count'])+'):'+str(track['start'] /
                                                    1000)+'-'+str(track['end']/1000)+' сек: '+res+'\n'
     track['res'] = mText
-    # f = open(track['file']+'.txt','w') 
-    # f.write(mText)
-    # f.close()
 
 # Блок тестирования
 if __name__ == "__main__":

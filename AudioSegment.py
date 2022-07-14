@@ -10,14 +10,11 @@ import time
 # кастомные
 import at_utility
 
-
-# Блок тестирования
-if __name__ == "__main__":
+# Блок Функциональности
+def audio_to_text(file_name:str):
     # print("конвертация")
-    fn_1 = r"tmp\Богословская.m4a"
-    # fn_1 = r"tmp\AUD-20220518-WA0000.wav"
-    fn_1 = at_utility.Convert_wav(fn_1)
 
+    fn_1 = at_utility.Convert_wav(file_name)
     fn_short = at_utility.file_name_short(fn_1)
 
     print("сегментация: ", fn_short)
@@ -72,18 +69,31 @@ if __name__ == "__main__":
 
     # распознование файла
     mText = ''
-    for track in file_arr:
-        th = Thread(target=at_utility.recognize_write, args=(track,))
-        th.start()
-        # at_utility.recognize_write(track)
-        # res = at_utility.Recognize(track['file'])
-        # mText = mText+'('+str(track['count'])+'):'+str(track['start'] /
-        #                                                1000)+'-'+str(track['end']/1000)+' сек: '+res+'\n'
+    if len(file_arr)>1:
+        countThred = threading.active_count()
+        for track in file_arr:
+            th = Thread(target=at_utility.recognize_write, args=(track,))
+            th.start()
 
-    while threading.active_count() > 1:
-        print('в работе: ', threading.active_count(),'потока(ов)')
-        time.sleep(3)
+        while threading.active_count() > countThred:
+            print('в работе: ', threading.active_count(),'потока(ов)', 'в резерве:', countThred)
+            time.sleep(3)
+    else:
+        at_utility.recognize_write(file_arr[0])
 
     for track in file_arr:
-        print(track['res'])
+        mText = mText + track['res']
+
+    return mText
+
+
+# Блок тестирования
+if __name__ == "__main__":
+    
+    fn_1 = r"tmp\Богословская.m4a"
+    # fn_1 = r"tmp\AUD-20220518-WA0000.wav"
+    
+    rezult = audio_to_text(fn_1)
+    print(rezult)
+    
     
