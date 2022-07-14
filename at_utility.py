@@ -2,6 +2,8 @@
 from pydub import AudioSegment
 from pydub.silence import detect_nonsilent
 import json
+import os
+import time
 
 from os import path
 import speech_recognition as sr
@@ -73,6 +75,12 @@ def write_json(file_name: str, data):
         json.dump(data, wf)
 
 
+def delete_file(file_name: str):
+    if os.path.isfile(file_name):
+        os.remove(file_name)
+        print('удален: ', file_name)
+
+
 def load_json(file_name: str):
     data = None
     if path.exists(file_name):
@@ -89,11 +97,41 @@ def file_name_short(fn: str):
     return fn_short
 
 
+def format_time(sec):    
+    sec = sec % (24 * 3600)
+    hour = sec // 3600
+    sec %=3600
+    min = sec // 60
+    sec %=60
+
+    if hour > 0:
+        time_string = "%02d:%02d:%02d" % (hour,min,sec)
+    else:
+        time_string = "%02d:%02d" % (min,sec)
+    
+    return time_string
+
 def recognize_write(track):
     res = Recognize(track['file'])
-    mText = '('+str(track['count'])+'):'+str(track['start'] /
-                                                   1000)+'-'+str(track['end']/1000)+' сек: '+res+'\n'
+    time_start = format_time(track['start']/1000)
+    time_end = format_time(track['end']/1000)
+
+    mText = '('+str(track['count'])+') ' + \
+        str(time_start)+'-'+str(time_end)+' '+res+'\n'
     track['res'] = mText
+    delete_file(track['file'])
+
+
+def slice_audio(audio_segment, fn_short, start, end, count, file_arr):
+    print('сохранение', start, end)
+    len_sec = round((end - start)/1000)
+    fn_count = r'tmp\tracks\tr_'+fn_short+'_' + \
+        str(count)+'_'+str(len_sec)+'_sec.wav'
+    Cut_AS(audio_segment, start, end, fn_count)
+
+    file_arr.append({'file': fn_count, 'start': start,
+                     'end': end, 'count': count, 'res': ''})
+
 
 # Блок тестирования
 if __name__ == "__main__":
@@ -104,8 +142,6 @@ if __name__ == "__main__":
     # wf = convert_wav(file_name)
 
     # распознование
-    wf = r'tmp\new_69_30_sec.wav'
-    wf = r'tmp\new_66_251_sec.wav'
     wf = r'tmp\new_59_414_sec.wav'
     res = Recognize(wf)
 

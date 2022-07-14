@@ -18,3 +18,8 @@
 952446042:AAH3IlkWj7DNVjPrWZjlzA80aS-w22bS45g
 
 pip install pytelegrambotapi
+
+//14-07-22
+1)потоки
+2)очистка "мусора"
+3)упаковка докер
