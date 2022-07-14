@@ -1,9 +1,8 @@
 
 from pydub import AudioSegment
-from pydub.silence import detect_nonsilent
 import json
 import os
-import time
+
 
 from os import path
 import speech_recognition as sr
