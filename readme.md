@@ -23,3 +23,6 @@ pip install pytelegrambotapi
 1)потоки
 2)очистка "мусора"
 3)упаковка докер
+
+20-07-22
+D:\YandexDisk\Проекты\audio_text
