@@ -26,3 +26,4 @@ pip install pytelegrambotapi
 
 20-07-22
 D:\YandexDisk\Проекты\audio_text
+21/03/24
